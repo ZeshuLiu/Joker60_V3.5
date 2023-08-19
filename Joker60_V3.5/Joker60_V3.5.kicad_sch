@@ -4,6 +4,13 @@
 
   (paper "A3")
 
+  (title_block
+    (title "Joker 60 v3.5")
+    (date "2023-08-17")
+    (rev "Rev 1.0")
+    (company "Liu Zeshu")
+  )
+
   (lib_symbols
     (symbol "Cherry_MX:Cherry_MX" (pin_names (offset 0)) (in_bom yes) (on_board yes)
       (property "Reference" "S" (at 0 1.524 0)
@@ -1034,6 +1041,46 @@
         )
       )
       (symbol "GND_1_1_1"
+        (pin power_in line (at 0 0 270) (length 0) hide
+          (name "GND" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
+    (symbol "GND_2" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
+      (property "Reference" "#PWR" (at 0 -6.35 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Value" "GND_2" (at 0 -3.81 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "global power" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "Power symbol creates a global label with name \"GND\" , ground" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "GND_2_0_1"
+        (polyline
+          (pts
+            (xy 0 0)
+            (xy 0 -1.27)
+            (xy 1.27 -1.27)
+            (xy 0 -2.54)
+            (xy -1.27 -1.27)
+            (xy 0 -1.27)
+          )
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "GND_2_1_1"
         (pin power_in line (at 0 0 270) (length 0) hide
           (name "GND" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27))))
@@ -2234,6 +2281,9 @@
     (uuid fe61e858-ca3f-4ee2-9252-be04dbbbd85e)
   )
 
+  (no_connect (at 97.79 94.615) (uuid 033f1f5b-12bd-4cd9-8fb4-9a6835a769f0))
+  (no_connect (at 130.81 102.235) (uuid 09f6de31-00b2-4333-b7a0-6f0cf034a2a6))
+  (no_connect (at 130.81 99.695) (uuid 10bb923a-196d-44d9-b972-bf10d3ec4ff9))
   (no_connect (at 204.47 50.165) (uuid 1b39937e-a566-4130-85e2-cffe300186c6))
   (no_connect (at 204.47 30.48) (uuid 379fb1ee-d93a-4cb8-89f5-b8dec34c00ad))
   (no_connect (at 97.79 84.455) (uuid 3f422514-2e1b-41fc-9c27-6ce019e365f0))
@@ -2252,7 +2302,9 @@
   (no_connect (at 97.79 122.555) (uuid d0efc3b2-dc11-4020-bbb0-670e8de5efa0))
   (no_connect (at 204.47 59.69) (uuid e41b1601-dd01-443c-a35e-daef60498914))
   (no_connect (at 204.47 45.72) (uuid e43abaeb-b185-4860-aa2d-dc440ea9a316))
+  (no_connect (at 97.79 97.155) (uuid e674311b-ebf5-4d99-9c4a-6302c8d3156b))
   (no_connect (at 204.47 55.245) (uuid ebd6f853-2a7d-469a-b6d0-92edabab718d))
+  (no_connect (at 130.81 125.095) (uuid feafd7f4-e4dd-4ebe-bd6e-798bf4212f8a))
 
   (wire (pts (xy 87.63 236.22) (xy 105.41 236.22))
     (stroke (width 0) (type default))
@@ -2442,6 +2494,11 @@
     (stroke (width 0) (type default))
     (uuid 1c62917b-7386-4b4c-b0d5-a5b512016528)
   )
+  (polyline (pts (xy 193.675 105.41) (xy 251.46 105.41))
+    (stroke (width 0.3) (type default))
+    (uuid 1d5e1f1c-3c11-420f-a294-3efd83823f38)
+  )
+
   (wire (pts (xy 122.555 260.985) (xy 121.285 260.985))
     (stroke (width 0) (type default))
     (uuid 1d6c94f2-3785-45c1-8346-6d071e6ddf6a)
@@ -7243,7 +7300,7 @@
     )
   )
 
-  (symbol (lib_id "power:GND") (at 82.55 139.065 0) (unit 1)
+  (symbol (lib_name "GND_2") (lib_id "power:GND") (at 82.55 139.065 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 82a871b8-5ba3-4c08-a8d2-d4fc5675cf4f)
     (property "Reference" "#PWR016" (at 82.55 145.415 0)

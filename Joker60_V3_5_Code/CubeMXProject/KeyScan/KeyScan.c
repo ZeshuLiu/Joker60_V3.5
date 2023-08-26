@@ -20,82 +20,66 @@ _Bool SingleScan(uint8_t KeyRep[]){
     static _Bool gpio_value, keypressed[KeyBoardRowCount][KeyBoardColCount] = {0};
     static uint8_t KeyScan[KeyBoardRowCount][KeyBoardColCount] = {0};
 
-    // Scan takes about 50us when ther are no debug outputs. With output, it takes 3000us or longer depending how much is printed out!
-    #ifdef TimeIt
-        uint64_t start_us = to_us_since_boot(get_absolute_time());
-    #endif
-
     keyChange = 0;
-    for (int i = 0; i < KeyBoardRowCount; i++){
-        if (i > 0){
-            //gpio_put(KeyboardRowList[i-1],1);
+
+    /* 扫描键盘矩阵 CODE START*/
+    for (int i = 0; i < KeyBoardRowCount; i++)
+    {
+        /* 将上一行置高+将当前行置低 CODE START*/
+        if (i > 0)
+        {
             HAL_GPIO_WritePin(KeyboardRowListPort[i-1],KeyboardRowListPin[i-1], GPIO_PIN_SET);
         }
-        else{
-            //gpio_put(KeyboardRowList[KeyBoardRowCount-1],1);
+        else
+        {
             HAL_GPIO_WritePin(KeyboardRowListPort[KeyBoardRowCount-1],KeyboardRowListPin[KeyBoardRowCount-1], GPIO_PIN_SET);
         }
-        //gpio_put(KeyboardRowList[i], 0);
         HAL_GPIO_WritePin(KeyboardRowListPort[i],KeyboardRowListPin[i], GPIO_PIN_RESET);
+        /* 将上一行置高+将当前行置低 CODE END*/
 
-        //sleep_us(10);
-        //? start_time = to_us_since_boot(get_absolute_time());
-        //? while (to_us_since_boot(get_absolute_time()) - start_time < 1) tight_loop_contents();
-        
-        for (int j = 0; j < KeyBoardColCount; j++){
-            // Debounce Read
-            //gpio_value = gpio_get(KeyboardColList[j]);
+        /* 读取每一列的电平 CODE START*/
+        for (int j = 0; j < KeyBoardColCount; j++)
+        {
+            /* 读取当前引脚电平 */
             gpio_value = HAL_GPIO_ReadPin(KeyboardColListPort[j],KeyboardColListPin[j]);
-            if(gpio_value == 0 && keypressed[i][j] == 0){
+
+            /* 键盘按下需要滞后滤波，但是松开立即执行 */
+            /* 如果当前没有认为该键按下，但是引脚电平为低（被按下），则keyScan[i][j]+=1 */
+            /* 并且需要保证其值不会太大（<= DebonuceTime) 防止其溢出 */
+            if(gpio_value == 0 && keypressed[i][j] == 0)
+            {
                 KeyScan[i][j] = (KeyScan[i][j] + 1)%(DebonuceTime+1);
-                #ifdef DBG
-                    //printf("Keychange %d,%d->%d\n",i,j,gpio_value);
-                #endif
             }
+            /* 如果当前认为该键按下，但是引脚电平为高（被释放），则keyScan[i][j] = 0 */
             else if (gpio_value == 1 && keypressed[i][j] == 1){
                 KeyScan[i][j] = 0;
-                #ifdef DBG
-                    //printf("Keychange %d,%d->%d\n",i,j,gpio_value);
-                #endif
             }
 
-            //获取防抖后的值
-            if (KeyScan[i][j]/DebonuceTime > 0 && keypressed[i][j] == 0){
+            /* 获取防抖后的值 CODE START*/
+
+            /* 如果KeyScan[i][j] >= DebonuceTime 并且原先认为其没有按下 */
+            /* 认为其按下，并且生成新的HidReport */
+            if (KeyScan[i][j]/DebonuceTime > 0 && keypressed[i][j] == 0)
+            {
                 keypressed[i][j] = 1;
                 KeyReportConstructFunc(KeyRep,i,j,1);
                 keyChange = 1;
-                #ifdef DBG
-                    printf("!! Keychange Debonuce %d,%d->%d\n",i,j,keypressed[i][j]);
-                #endif
             }
-            else if (KeyScan[i][j]/DebonuceTime == 0 && keypressed[i][j] == 1){
+            /* 如果KeyScan[i][j] < DebonuceTime 并且原先认为其按下 */
+            /* 认为其没有按下，并且生成新的HidReport */
+            else if (KeyScan[i][j]/DebonuceTime == 0 && keypressed[i][j] == 1)
+            {
                 keypressed[i][j] = 0;
                 KeyReportConstructFunc(KeyRep,i,j,0);
                 keyChange = 1;
-                #ifdef DBG
-                    printf("!! Keychange Debonuce %d,%d->%d\n",i,j,keypressed[i][j]);
-                #endif
             }
 
+            /* 获取防抖后的值 CODE END*/
         }
-
+        /* 读取每一列的电平 CODE END*/
     }
+    /* 扫描键盘矩阵 CODE END*/
 
-    #ifdef TimeIt
-        if (keyChange) printf("Scan Used %llu us\n\n",to_us_since_boot(get_absolute_time()) - start_us );
-    #endif
-
-#ifdef DBG
-    if (keyChange==1 && 0){
-        for (int i = 0; i < KeyBoardRowCount; i++){
-            printf("Row:%d", i);
-            for (int j = 0; j < KeyBoardColCount; j++){
-                printf("Col%d-%d, ", j,keypressed[i][j]);
-            }
-            printf("------------------------------\n\n");
-        }
-    }
-#endif
     return keyChange;
 }
 
@@ -110,7 +94,7 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
     static uint8_t keyval, temp;
     static _Bool ifFn=0, ifPn=0;
 
-    // First time press FN
+    /* 第一次按下FN CODE START */
     if (Row == FN_ROW && Col == FN_COL && ifFn == 0 && IfPress == 1){ 
         ifFn = 1;
         LED2_Blink_Int = LED2_Blink_FN;
@@ -119,8 +103,9 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
         }
         return ;
     }
+    /* 第一次按下FN  CODE END */
 
-    // First time release FN
+    /* 第一次松开FN CODE START */
     if (Row == FN_ROW && Col == FN_COL && ifFn == 1 && IfPress == 0){ 
         ifFn = 0;
         LED2_Blink_Int = LED2_Blink_Idle;
@@ -129,9 +114,9 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
         }
         return ;
     }
+    /* 第一次松开FN CODE END */
 
-    
-    // Normal Mode (PN not pressed!)
+    /* 正常键值 (没有按下PN) CODE START */
     if (ifPn==0){
         if (ifFn==0){
             keyval = Normal_Value[Row][Col];
@@ -147,7 +132,7 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
             return;
         }
 
-        // Modifier Key
+        /* 按下的是修饰键 CODE START */
         if (keyval > ModifierStart){
             temp = keyval - ModifierStart - 1;
             temp = 0x01<<temp;
@@ -163,8 +148,15 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
 
             return;
         }
+        /* 按下的是修饰键 CODE END */
+
+        /* 超过了我们限制的位数 0-0x77 （120键）的回报报文 */
+        if (keyval >= MAX_NORMAL_KEY)
+        {
+            return;
+        }
         
-        // Normal Key
+        /* 按下的是普通按键 CODE START */
         temp = (keyval)%0x08;
         temp = 0x01<<temp; 
         if (IfPress){
@@ -176,14 +168,16 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
         #ifdef DBG
             printf("Report No.%d = 0x%02X\n", (1 + (keyval)/0x08), KeyReport[1 + (keyval)/0x08]);
         #endif
+        /* Normal Key END */
 
-    }// Normal Mode (PN not pressed!)
-
-    // PN Mode (PN Pressed)
+    }
+    /* 按下的是普通按键 CODE END */
+    
+    /* PN被按下情况的键值 CODE START */
     else{
         //Todo 
-    }// PN Mode (PN Pressed)
-		
-    
+    }
+    /* PN被按下情况的键值 CODE END */
+	
 }
 

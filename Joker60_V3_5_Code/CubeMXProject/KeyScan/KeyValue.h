@@ -93,6 +93,14 @@
 #define KeyUARROW 0x52
 #define KeyNUMLOCK 0x53
 
+#define MAX_NORMAL_KEY 0x77
+
+#define KeyMute 0x7f
+#define KeyVolUp 0x80
+#define KeyVolDown 0x81
+
+
+
 // Modifiers
 #define ModifierStart 0xDF //if KeyValue > ModifierStart then it is modifiers
 

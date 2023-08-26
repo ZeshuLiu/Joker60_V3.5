@@ -41,8 +41,8 @@ uint8_t Normal_Value[KeyBoardRowCount][KeyBoardColCount]={
 
 uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount]={
     {KeyGRAVE, KeyF1, KeyF2,KeyF3,KeyF4,KeyF5,KeyF6,KeyF7,KeyF8,KeyF9,KeyF10,KeyF11,KeyF12,KeyDELETE},
-    {KeyTAB, KeyQ,KeyUARROW,KeyE,KeyR,KeyT, KeyY, KeyU,KeyI,KeyO,KeyP,KeyLBRACKET,KeyRBRACKET,KeyBSLASH},
-    {KeyLCtrl, KeyLARROW,KeyDARROW,KeyRARROW,KeyF,KeyG,KeyH,KeyJ,KeyK,KeyL,KeySEMICOLON, KeyQUOTA, 0,KeyRETURN},
-    {KeyLShift, KeyZ,KeyX,KeyC,KeyV,KeyB,KeyN,KeyM,KeyCOMMA,KeyPERIOD,KeyFSLASH, 0, 0, KeyRShift},
+    {KeyTAB, KeyQ,KeyUARROW,KeyE,KeyR,KeyT, KeyY, KeyU,KeyINSERT,KeyO,KeyPRINTSCREEN,KeySCROLLLOCK,KeyRBRACKET,KeyBSLASH},
+    {KeyLCtrl, KeyLARROW,KeyDARROW,KeyRARROW,KeyF,KeyG,KeyH,KeyJ,KeyK,KeyL,KeyHOME, KeyPAGEUP, 0,KeyRETURN},
+    {KeyLShift, KeyZ,KeyX,KeyC,KeyV,KeyB,KeyN,KeyM,KeyCOMMA,KeyEND,KeyPAGEDOWN, 0, 0, KeyRShift},
     {KeyCAPSLOCK,KeyLGui,KeyFN,0,0,KeySPACE,0,0,0,KeyPN,KeyRAlt,0,KeyRGui,KeyRCtrl}
 };

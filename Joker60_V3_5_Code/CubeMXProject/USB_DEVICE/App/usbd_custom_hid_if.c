@@ -63,6 +63,10 @@
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 
+#define CapsLockMask 0x02
+#define NumLockMask 0x01
+#define ScrolLockMask 0x03
+
 /* USER CODE END PRIVATE_DEFINES */
 
 /**
@@ -91,7 +95,40 @@
 __ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END =
 {
   /* USER CODE BEGIN 0 */
-  0x00,
+
+  0x05, 0x01,         //   Usage Page (Generic Desktop),
+  0x09, 0x06,         //   Usage (Keyboard),
+  0xA1, 0x01,         //   Collection (Application),
+  0x85, 0x01,         //     REPORT_ID (1)
+  // bitmap of modifiers
+  0x75, 0x01,         //   Report Size (1),
+  0x95, 0x08,         //   Report Count (8),
+  0x05, 0x07,       //   Usage Page (Key Codes),
+  0x19, 0xE0,       //   Usage Minimum (224),
+  0x29, 0xE7,       //   Usage Maximum (231),
+  0x15, 0x00,       //   Logical Minimum (0),
+  0x25, 0x01,       //   Logical Maximum (1),
+  0x81, 0x02,       //   Input (Data, Variable, Absolute), ;Modifier byte
+  // bitmap of keys
+  0x95, 0x78,       //   Report Count (120),
+  0x75, 0x01,       //   Report Size (1),
+  0x15, 0x00,       //   Logical Minimum (0),
+  0x25, 0x01,       //   Logical Maximum(1),
+  0x05, 0x07,       //   Usage Page (Key Codes),
+  0x19, 0x00,       //   Usage Minimum (0),
+  0x29, 0x77,       //   Usage Maximum (),
+  0x81, 0x02,       //   Input (Data, Variable, Absolute),
+  // LED control
+  0x95, 0x03,       //   Report Count (3)
+  0x75, 0x01,       //   Report Size  (1)
+  0x05, 0x08,       // USAGE_PAGE (LEDs)
+  0x19, 0x01,       //   Usage Minimum (Num Lock   1)
+  0x29, 0x03,       //   Usage Maximum (Scroll Lock   3)
+  0x91, 0x02,       //   Output (Data,Var,Abs)
+  //output凑共1byte(无实际用处)
+  0x95, 0x05,       //   Report Count (5)
+  0x75, 0x01,       //   Report Size  (1)
+  0x91, 0x01,       //   Output (Cnst,Var,Abs)
   /* USER CODE END 0 */
   0xC0    /*     END_COLLECTION	             */
 };
@@ -176,8 +213,47 @@ static int8_t CUSTOM_HID_DeInit_FS(void)
 static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
 {
   /* USER CODE BEGIN 6 */
-  UNUSED(event_idx);
-  UNUSED(state);
+  volatile static uint8_t a = 0;
+  
+  if (event_idx == 1) 
+  {
+    /* Caps Lock */
+    if ((state&CapsLockMask))// CapsLock ON
+    {
+      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET);
+    }
+    else if ((~state)&CapsLockMask)// CapsLock OFF
+    {
+      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET);
+    }
+
+    #if 0 // Reserved for other mask
+    /* Num Lock */
+    if ((state&NumLockMask))// CapsLock ON
+    {
+      
+    }
+    else if ((~state)&NumLockMask)// CapsLock OFF
+    {
+      
+    }
+
+    /* Scroll Lock */
+    if ((state&ScrolLockMask))// CapsLock ON
+    {
+      
+    }
+    else if ((~state)&ScrolLockMask)// CapsLock OFF
+    {
+      
+    }
+    #endif
+    
+    a += 1; 
+  }
+  
+  //UNUSED(event_idx);
+  //UNUSED(state);
 
   /* Start next USB packet transfer once data processing is completed */
   if (USBD_CUSTOM_HID_ReceivePacket(&hUsbDeviceFS) != (uint8_t)USBD_OK)
@@ -195,7 +271,7 @@ static int8_t CUSTOM_HID_OutEvent_FS(uint8_t event_idx, uint8_t state)
   * @param  report: The report to be sent
   * @param  len: The report length
   * @retval USBD_OK if all operations are OK else USBD_FAIL
-  */
+*/
 /*
 static int8_t USBD_CUSTOM_HID_SendReport_FS(uint8_t *report, uint16_t len)
 {

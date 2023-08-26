@@ -99,6 +99,8 @@ void Error_Handler(void);
 #define ROW1_GPIO_Port GPIOA
 #define ROW2_Pin GPIO_PIN_10
 #define ROW2_GPIO_Port GPIOC
+#define ROW4_Pin GPIO_PIN_13
+#define ROW4_GPIO_Port GPIOC
 #define COL10_Pin GPIO_PIN_11
 #define COL10_GPIO_Port GPIOC
 #define COL11_Pin GPIO_PIN_12

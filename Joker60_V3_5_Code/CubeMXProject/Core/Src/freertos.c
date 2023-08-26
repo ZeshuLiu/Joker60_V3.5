@@ -142,7 +142,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartUSBHidTask(void *argument)
 {
-  static uint8_t KeyHidReportFull[17] = {0};
+  static uint8_t KeyHidReportFull[KeyHidReportLen+1] = {0};
   static TickType_t lasttick;
   
   lasttick = xTaskGetTickCount();
@@ -155,8 +155,8 @@ void StartUSBHidTask(void *argument)
   {
     // SingleScan(KeyHidReport);
     vTaskDelayUntil(&lasttick, 0x01U); // 每 1ms 发送一次数据
-    memcpy(&KeyHidReportFull[1], KeyHidReport, 16);
-    USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS,KeyHidReportFull,17);
+    memcpy(&KeyHidReportFull[1], KeyHidReport, KeyHidReportLen);
+    USBD_CUSTOM_HID_SendReport(&hUsbDeviceFS, KeyHidReportFull, KeyHidReportLen+1);
   }
   /* USER CODE END StartDefaultTask */
 }

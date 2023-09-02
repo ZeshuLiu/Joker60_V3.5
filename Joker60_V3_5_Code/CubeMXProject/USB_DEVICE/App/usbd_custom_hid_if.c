@@ -95,7 +95,6 @@
 __ALIGN_BEGIN static uint8_t CUSTOM_HID_ReportDesc_FS[USBD_CUSTOM_HID_REPORT_DESC_SIZE] __ALIGN_END =
 {
   /* USER CODE BEGIN 0 */
-
   0x05, 0x01,         //   Usage Page (Generic Desktop),
   0x09, 0x06,         //   Usage (Keyboard),
   0xA1, 0x01,         //   Collection (Application),

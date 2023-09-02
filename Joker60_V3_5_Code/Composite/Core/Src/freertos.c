@@ -68,7 +68,6 @@ const osThreadAttr_t LED_Task_attributes = {
 osThreadId_t KeyScan_TaskHandle;
 const osThreadAttr_t KeyScan_Task_attributes = {
   .name = "KeyScan_Task",
-  // .stack_size = 768*4,
   .stack_size = 128*4,
   .priority = (osPriority_t) osPriorityAboveNormal1,
 };

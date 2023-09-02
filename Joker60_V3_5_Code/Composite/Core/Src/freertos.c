@@ -162,7 +162,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   { 
-    vTaskDelayUntil(&lasttick, 0x01U); // ?? 1ms ??????
+    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一次
     memcpy(&ConHidReportFull[1], &ComposedHidReport[ConHidReportOffset], ConHidReportLen);
     if (ConHidReportFull[1] != LastReport)
     {
@@ -199,9 +199,6 @@ void Start_LED_Task(void *argument)
     CDC_Transmit(0,dat,4);
     //HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
     osDelay((uint32_t)LED2_Blink_Int);
-
-    //! osDelay(LED2_Blink_Idle);
-    //! osDelay(1000);
   }
   /* USER CODE END Start_LED_Task */
 }
@@ -223,12 +220,12 @@ void Start_KeyScan_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    vTaskDelayUntil(&lasttick, 0x01U); // ?? 1ms ????
+    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一轮
 
-    /* ?????? ScanCountPerms ?????????? */
+    /* 每轮扫描扫描 ScanCountPerms 次 */
     for ( ScanCount = 0; ScanCount < ScanCountPerms; ScanCount++)
     {
-      SingleScan(ComposedHidReport);// ?????? 1/10 ms
+      SingleScan(ComposedHidReport);// 每轮扫描大概需要 1/10 ms
     } 
   }
   /* USER CODE END Start_KeyScan_Task */

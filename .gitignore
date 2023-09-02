@@ -4,4 +4,7 @@ Joker60_V3_5_Code/CubeMXProject/MDK-ARM/CubeMXProject/*.d
 **.vscode
 **.eide
 **Backup
+Joker60_V3_5_Code/Composite/MDK-ARM/Composite/*.o
+Joker60_V3_5_Code/Composite/MDK-ARM/Composite/*.d
+Joker60_V3_5_Code/Composite/MDK-ARM/Composite/*.crf
 

@@ -52,6 +52,8 @@
 "composite\port.o"
 "composite\keyscan.o"
 "composite\layout.o"
+"composite\lcd.o"
+"composite\lcd_init.o"
 "composite\usbd_composite.o"
 "composite\usbd_hid_custom.o"
 "composite\usbd_hid_custom_if.o"

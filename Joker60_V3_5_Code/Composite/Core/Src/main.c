@@ -30,7 +30,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "lcd_init.h"
+#include "lcd.h"
+// #include "pic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -40,7 +42,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define HW_SPI
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -102,7 +104,14 @@ int main(void)
   MX_USART6_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-   
+
+  LCD_Init(hspi2);//LCD初始�?
+  // LCD_Init();//LCD初始�?
+  // LCD_Init();//LCD初始�?
+	//HAL_Delay(100);
+  //! LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
+  LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
+  
   /* USER CODE END 2 */
 
   /* Init scheduler */

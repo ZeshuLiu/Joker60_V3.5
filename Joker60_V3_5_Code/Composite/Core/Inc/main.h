@@ -78,8 +78,6 @@ void Error_Handler(void);
 #define LED2_GPIO_Port GPIOA
 #define SCK2_Pin GPIO_PIN_13
 #define SCK2_GPIO_Port GPIOB
-#define MISO2_Pin GPIO_PIN_14
-#define MISO2_GPIO_Port GPIOB
 #define MOSI2_Pin GPIO_PIN_15
 #define MOSI2_GPIO_Port GPIOB
 #define TX6_Pin GPIO_PIN_6

@@ -30,10 +30,14 @@
 #include "Layout.h"
 #include <string.h>
 #include "main.h"
-#
+
 #include "usbd_hid_custom.h"
 #include "usb_device.h"
 #include "usbd_cdc_acm_if.h"
+
+#include "lcd_init.h"
+#include "lcd.h"
+#include "pic.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -61,8 +65,8 @@ static uint8_t ComposedHidReport[ComposedHidReportLen] = {0};
 osThreadId_t LED_TaskHandle;
 const osThreadAttr_t LED_Task_attributes = {
   .name = "Led_Task",
-  .stack_size = 64*4,
-  .priority = (osPriority_t) osPriorityLow7,
+  .stack_size = 256*4,
+  .priority = (osPriority_t) osPriorityLow,
 };
 
 osThreadId_t KeyScan_TaskHandle;
@@ -79,7 +83,7 @@ osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityHigh,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -161,7 +165,7 @@ void StartDefaultTask(void *argument)
   /* Infinite loop */
   for(;;)
   { 
-    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一次
+    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描�???�???
     memcpy(&ConHidReportFull[1], &ComposedHidReport[ConHidReportOffset], ConHidReportLen);
     if (ConHidReportFull[1] != LastReport)
     {
@@ -190,6 +194,8 @@ void Start_LED_Task(void *argument)
 {
   /* USER CODE BEGIN Start_LED_Task */
   static uint8_t dat[4] = {'a', 'b', 'c', 'd'};
+  uint8_t i, j;
+  float t=0;
   HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin, GPIO_PIN_RESET);
   /* Infinite loop */
   for(;;)
@@ -198,6 +204,50 @@ void Start_LED_Task(void *argument)
     CDC_Transmit(0,dat,4);
     //HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
     osDelay((uint32_t)LED2_Blink_Int);
+
+    
+		t+=0.11;
+    /**
+		for(j=0;j<3;j++)
+		{
+			for(i=0;i<6;i++)
+			{
+				LCD_ShowPicture(40*i,120+j*40,40,40,gImage_2);
+			}
+		}
+    */
+    // i = (++i % 240);
+    // i++;
+    // i = 10;
+    LCD_ShowPicture(0,31,240,91,gImage_DOG);
+    // LCD_ShowPicture(235,150,40,40,gImage_1);
+    LCD_ShowFloatNum1(128,200,t,4,RED,WHITE,16);
+    /*
+
+    LCD_ShowString(0,40,"LCD_W:",RED,0x8081,16,0);
+		LCD_ShowIntNum(48,40,LCD_W,3,RED,WHITE,16);
+		LCD_ShowString(80,40,"LCD_H:",RED,WHITE,16,0);
+		LCD_ShowIntNum(128,40,LCD_H,3,RED,WHITE,16);
+		LCD_ShowString(80,40,"LCD_H:",RED,WHITE,16,0);
+		LCD_ShowString(0,70,"Increaseing Nun:",RED,WHITE,16,0);
+		LCD_ShowFloatNum1(128,70,t,4,RED,WHITE,16);
+
+    LCD_DrawLine(0,20,300,20,MAGENTA);
+		LCD_DrawLine(0,20,0,299,MAGENTA);
+		LCD_DrawLine(0,299,300,299,MAGENTA);
+		LCD_DrawLine(239,20,239,299,MAGENTA);
+
+    for(int i = 0; i <20; i++){
+      LCD_ShowIntNum(48,16*i,16*i,3,BLUE,WHITE,16);
+      LCD_DrawLine(100,16*i,200,16*i,YELLOW);
+      LCD_DrawLine(100,16*i-2,200,16*i-2,BLUE);
+			LCD_DrawLine(100,16*i+2,200,16*i+2,BLUE);
+			LCD_DrawLine(100,16*i+4,200,16*i+4,RED);
+			LCD_DrawLine(100,16*i-4,200,16*i-4,RED);
+      osDelay(10);
+    }
+    */
+    
   }
   /* USER CODE END Start_LED_Task */
 }
@@ -219,12 +269,12 @@ void Start_KeyScan_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一轮
+    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描�???�???
 
-    /* 每轮扫描扫描 ScanCountPerms 次 */
+    /* 每轮扫描扫描 ScanCountPerms �??? */
     for ( ScanCount = 0; ScanCount < ScanCountPerms; ScanCount++)
     {
-      SingleScan(ComposedHidReport);// 每轮扫描大概需要 1/10 ms
+      SingleScan(ComposedHidReport);// 每轮扫描大概�???�??? 1/10 ms
     } 
   }
   /* USER CODE END Start_KeyScan_Task */

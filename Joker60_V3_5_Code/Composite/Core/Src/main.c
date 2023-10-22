@@ -75,7 +75,6 @@ void MX_FREERTOS_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -105,10 +104,8 @@ int main(void)
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
 
-  LCD_Init(hspi2);//LCD初始�?
-  // LCD_Init();//LCD初始�?
-  // LCD_Init();//LCD初始�?
-	//HAL_Delay(100);
+  LCD_Init(hspi2);//LCD初始�?
+
   //! LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
   LCD_Fill(0,0,LCD_W,LCD_H,WHITE);
   

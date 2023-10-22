@@ -26,7 +26,7 @@
 #define ConHidReportID 3U  // 音乐控制器的报文ID
 #define ConHidReportOffset 16  // 键盘的hid报文在一整个扫描中存储的位置偏移量（16）
 
-#define ComposedHidReportLen KeyHidReportLen + ConHidReportLen
+#define ComposedHidReportLen KeyHidReportLen + ConHidReportLen + 1
 
 extern GPIO_TypeDef *KeyboardColListPort[KeyBoardColCount];
 extern uint16_t  KeyboardColListPin[KeyBoardColCount];
@@ -36,6 +36,9 @@ extern GPIO_TypeDef *KeyboardRowListPort[KeyBoardRowCount];
 
 extern uint8_t Normal_Value[KeyBoardRowCount][KeyBoardColCount];        // Normal KeyValue 
 extern uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount];      // KeyValue When Fn_Pressed
+
+extern uint8_t FN_NORMAL_DIF_HID_REP_LIST[KeyHidReportLen];
+
 
 enum {
   LED2_Blink_Idle = 1000,

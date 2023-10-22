@@ -9,12 +9,12 @@
 
 _Bool keyChange = 0;
 
-/*! @author Liu Zeshu
-    @brief Scan the keyboard matrix once; There is filter to eliminate switch bounce: #1. When keypressed[i][j] == 0 (Not Think it is Pressed), if the io think 
+/** @author Liu Zeshu
+  *  @brief Scan the keyboard matrix once; There is filter to eliminate switch bounce: #1. When keypressed[i][j] == 0 (Not Think it is Pressed), if the io think 
 key is pressed (may be a bounce), KeyScan[i][j] += 1. #2 When (KeyScan[i][j]/DebonuceTime > 0) is true, set keypressed[i][j] = 1(Pressed). #3 If keypressed[i][j] == 1
 and the io think the key is released, directly set keypressed[i][j] = 0 (Released). ## DebounceTime is defined in Layout.h
-    @param KeyRep[] List contains Hid Report Data. 
-    @return If any key has changed
+  *  @param KeyRep[] List contains Hid Report Data. 
+  *  @return If any key has changed
 */
 _Bool SingleScan(uint8_t KeyRep[]){
     static _Bool gpio_value, keypressed[KeyBoardRowCount][KeyBoardColCount] = {0};
@@ -25,7 +25,7 @@ _Bool SingleScan(uint8_t KeyRep[]){
     /* 扫描键盘矩阵 CODE START*/
     for (int i = 0; i < KeyBoardRowCount; i++)
     {
-        /* 将上一行置高+将当前行置低 CODE START*/
+        /* 将上一行置高+将当前行置低 CODE START */
         if (i > 0)
         {
             HAL_GPIO_WritePin(KeyboardRowListPort[i-1],KeyboardRowListPin[i-1], GPIO_PIN_SET);
@@ -35,9 +35,9 @@ _Bool SingleScan(uint8_t KeyRep[]){
             HAL_GPIO_WritePin(KeyboardRowListPort[KeyBoardRowCount-1],KeyboardRowListPin[KeyBoardRowCount-1], GPIO_PIN_SET);
         }
         HAL_GPIO_WritePin(KeyboardRowListPort[i],KeyboardRowListPin[i], GPIO_PIN_RESET);
-        /* 将上一行置高+将当前行置低 CODE END*/
+        /* 将上一行置高+将当前行置低 CODE END */
 
-        /* 读取每一列的电平 CODE START*/
+        /* 读取每一列的电平 CODE START */
         for (int j = 0; j < KeyBoardColCount; j++)
         {
             /* 读取当前引脚电平 */
@@ -48,7 +48,8 @@ _Bool SingleScan(uint8_t KeyRep[]){
             /* 并且需要保证其值不会太大（<= DebonuceTime) 防止其溢出 */
             if(gpio_value == 0 && keypressed[i][j] == 0)
             {
-                KeyScan[i][j] = (KeyScan[i][j] + 1)%(DebonuceTime+1);
+                // KeyScan[i][j] = (KeyScan[i][j] + 1)%(DebonuceTime+1);
+                KeyScan[i][j] = ( (KeyScan[i][j] + 1) > (DebonuceTime+1) ) ? DebonuceTime :  (KeyScan[i][j] + 1) ;
             }
             /* 如果当前认为该键按下，但是引脚电平为高（被释放），则keyScan[i][j] = 0 */
             else if (gpio_value == 1 && keypressed[i][j] == 1){
@@ -59,12 +60,13 @@ _Bool SingleScan(uint8_t KeyRep[]){
 
             /* 如果KeyScan[i][j] >= DebonuceTime 并且原先认为其没有按下 */
             /* 认为其按下，并且生成新的HidReport */
-            if (KeyScan[i][j]/DebonuceTime > 0 && keypressed[i][j] == 0)
+            if (KeyScan[i][j] >= DebonuceTime && keypressed[i][j] == 0)
             {
                 keypressed[i][j] = 1;
                 KeyReportConstructFunc(KeyRep,i,j,1);
                 keyChange = 1;
             }
+
             /* 如果KeyScan[i][j] < DebonuceTime 并且原先认为其按下 */
             /* 认为其没有按下，并且生成新的HidReport */
             else if (KeyScan[i][j]/DebonuceTime == 0 && keypressed[i][j] == 1)
@@ -98,8 +100,8 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
     if (Row == FN_ROW && Col == FN_COL && ifFn == 0 && IfPress == 1){ 
         ifFn = 1;
         LED2_Blink_Int = LED2_Blink_FN;
-        for (int i = 0; i < ComposedHidReportLen; i++){
-            KeyReport[i] = 0;
+        for (int i = 0; i < ComposedHidReportLen - 1; i++){
+            KeyReport[i] &= FN_NORMAL_DIF_HID_REP_LIST[i];
         }
         return ;
     }
@@ -109,8 +111,8 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
     if (Row == FN_ROW && Col == FN_COL && ifFn == 1 && IfPress == 0){ 
         ifFn = 0;
         LED2_Blink_Int = LED2_Blink_Idle;
-        for (int i = 0; i < ComposedHidReportLen; i++){
-            KeyReport[i] = 0;
+        for (int i = 0; i < ComposedHidReportLen - 1; i++){
+            KeyReport[i] &= FN_NORMAL_DIF_HID_REP_LIST[i];
         }
         return ;
     }

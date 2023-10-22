@@ -46,3 +46,25 @@ uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount]={
     {KeyLShift, KeyZ,KeyX,KeyC,KeyV,KeyB,KeyVolDown,KeyVolUp,KeyMute,KeyEND,KeyPAGEDOWN, 0, 0, KeyRShift},
     {KeyCAPSLOCK,KeyLGui,KeyFN,0,0,KeySPACE,0,0,0,KeyPN,KeyRAlt,0,KeyRGui,KeyRCtrl}
 };
+
+uint8_t FN_NORMAL_DIF_HID_REP_LIST[KeyHidReportLen] = {
+    0xF3,   // Low KeyLCtrl KeyLShift KeyLAlt KeyLGui - KeyRCtrl KeyRShift KeyRAlt KeyRGui High
+    0x60,   // Low x x x x - KeyA KeyB KeyC KeyD High
+    0x4F,   // Low KeyE KeyF KeyG KeyH - KeyI KeyJ KeyK KeyL High
+    0xB4,   // Low KeyM KeyN KeyO KeyP - KeyQ KeyR KeyS KeyT High
+
+    0x3B,   // Low KeyU KeyV KeyW KeyX - KeyY KeyZ Key1 Key2 High
+    0x00,   // Low Key3 Key4 Key5 Key6 - Key7 Key8 Key9 Key0 High
+    0x19,   // Low KeyRETURN KeyESC KeyBACKSPACE KeyTAB - KeySPACE KeyMINUS KeyEQUAL KeyLBRACKET High
+    0x03,   // Low KeyRBRACKET KeyBSLASH X KeySEMICOLON - KeyQUOTA KeyGRAVE KeyCOMMA KeyPERIOD High
+
+    0x02,   // Low KeyFSLASH KeyCAPSLOCK KeyF1 KeyF2 - KeyF3 KeyF4 KeyF5 KeyF6 High
+    0x00,   // Low KeyF7 KeyF8 KeyF9 KeyF10 - KeyF11 KeyF12 KeyPRINTSCREEN KeySCROLLLOCK High
+    0x00,   // Low KeyPAUSE KeyINSERT KeyHOME KeyPAGEUP - KeyDELETE KeyEND KeyPAGEDOWN KeyRARROW High
+    0x00,   // Low KeyLARROW KeyDARROW KeyUARROW KeyNUMLOCK - X X X X High
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+};

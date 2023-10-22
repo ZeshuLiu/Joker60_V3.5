@@ -152,13 +152,13 @@ void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
 	static TickType_t lasttick;
-	static uint8_t KeyHidReportFull[KeyHidReportLen+1] = {0};
+	// static uint8_t KeyHidReportFull[KeyHidReportLen+1] = {0};
   static uint8_t ConHidReportFull[ConHidReportLen+1] = {0};
   static uint8_t LastReport = 0;
   volatile uint8_t i = 0;
   
 	MX_USB_DEVICE_Init();
-  KeyHidReportFull[0] = KeyHidReportID;
+  ComposedHidReport[0] = KeyHidReportID;
   ConHidReportFull[0] = ConHidReportID;
   
   lasttick = xTaskGetTickCount();
@@ -166,17 +166,16 @@ void StartDefaultTask(void *argument)
   for(;;)
   { 
     vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描�???�???
-    memcpy(&ConHidReportFull[1], &ComposedHidReport[ConHidReportOffset], ConHidReportLen);
-    if (ConHidReportFull[1] != LastReport)
+    
+    if (ComposedHidReport[ConHidReportOffset+1] != LastReport)
     {
+      memcpy(&ConHidReportFull[1], &ComposedHidReport[ConHidReportOffset+1], ConHidReportLen);
       while (USBD_CUSTOM_HID_SendReport(&hUsbDevice, ConHidReportFull, ConHidReportLen+1)!=USBD_OK);
       LastReport = ConHidReportFull[1];
       continue;
     }
-    // SingleScan(KeyHidReport);
-    
-    memcpy(&KeyHidReportFull[1], &ComposedHidReport[KeyHidReportOffset], KeyHidReportLen);
-    USBD_CUSTOM_HID_SendReport(&hUsbDevice, KeyHidReportFull, KeyHidReportLen+1);
+
+    USBD_CUSTOM_HID_SendReport(&hUsbDevice, ComposedHidReport, KeyHidReportLen+1);
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -195,7 +194,7 @@ void Start_LED_Task(void *argument)
   /* USER CODE BEGIN Start_LED_Task */
   static uint8_t dat[4] = {'a', 'b', 'c', 'd'};
   uint8_t i, j;
-  float t=0;
+  double t=0;
   HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin, GPIO_PIN_RESET);
   /* Infinite loop */
   for(;;)
@@ -206,22 +205,12 @@ void Start_LED_Task(void *argument)
     osDelay((uint32_t)LED2_Blink_Int);
 
     
-		t+=0.11;
-    /**
-		for(j=0;j<3;j++)
-		{
-			for(i=0;i<6;i++)
-			{
-				LCD_ShowPicture(40*i,120+j*40,40,40,gImage_2);
-			}
-		}
-    */
-    // i = (++i % 240);
-    // i++;
-    // i = 10;
+		t += 0.11;
+
     LCD_ShowPicture(0,31,240,91,gImage_DOG);
-    // LCD_ShowPicture(235,150,40,40,gImage_1);
+
     LCD_ShowFloatNum1(128,200,t,4,RED,WHITE,16);
+
     /*
 
     LCD_ShowString(0,40,"LCD_W:",RED,0x8081,16,0);
@@ -274,7 +263,7 @@ void Start_KeyScan_Task(void *argument)
     /* 每轮扫描扫描 ScanCountPerms �??? */
     for ( ScanCount = 0; ScanCount < ScanCountPerms; ScanCount++)
     {
-      SingleScan(ComposedHidReport);// 每轮扫描大概�???�??? 1/10 ms
+      SingleScan(&ComposedHidReport[1]);// 每轮扫描大概需要 1/10 ms
     } 
   }
   /* USER CODE END Start_KeyScan_Task */

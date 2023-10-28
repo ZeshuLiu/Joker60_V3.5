@@ -190,15 +190,16 @@
         <newCpu>0</newCpu>
         <uProt>0</uProt>
       </DebugFlag>
-      <LintExecutable></LintExecutable>
-      <LintConfigFile></LintConfigFile>
+      <LintExecutable>C:\Lint\lint-nt.exe</LintExecutable>
+      <LintConfigFile>E:\Software\keil\ARM\BIN\CO-RV.LNT</LintConfigFile>
       <bLintAuto>0</bLintAuto>
       <bAutoGenD>0</bAutoGenD>
-      <LntExFlags>0</LntExFlags>
-      <pMisraName></pMisraName>
-      <pszMrule></pszMrule>
+      <LntExFlags>27</LntExFlags>
+      <pMisraName>.\Lint\MISRA_C_2004_Config.lnt</pMisraName>
+      <pszMrule>MISRA_C_2004_Config</pszMrule>
       <pSingCmds></pSingCmds>
-      <pMultCmds></pMultCmds>
+      <pMultCmds>-marcos
+</pMultCmds>
       <pMisraNamep></pMisraNamep>
       <pszMrulep></pszMrulep>
       <pSingCmdsp></pSingCmdsp>

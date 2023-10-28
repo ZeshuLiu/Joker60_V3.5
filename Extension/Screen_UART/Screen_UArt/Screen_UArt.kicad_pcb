@@ -4574,10 +4574,10 @@
       (net 3 "VDD") (pinfunction "Pin_19") (pintype "passive") (tstamp 2601d5b4-1f8d-4079-82ae-9f029f9a8000))
     (pad "20" smd rect (at 3.6 -2.3 180) (size 0.3 2.5) (layers "B.Cu" "B.Paste" "B.Mask")
       (net 3 "VDD") (pinfunction "Pin_20") (pintype "passive") (tstamp 40bec7ac-09dd-4e76-bfa1-f352c1a7b6d7))
-    (model "${KIPRJMOD}/Connector/SGDBM-08-020P-H10.stp"
-      (offset (xyz -38.72 107.5 98.3))
+    (model "F:/Develope/Joker60_V3.5/Extension/Template/Template/Connector/SGDBM-08-020P-H10.stp"
+      (offset (xyz -38.6 107.6 98.3))
       (scale (xyz 1 1 1))
-      (rotate (xyz 90 0 -90))
+      (rotate (xyz -90 180 90))
     )
   )
 

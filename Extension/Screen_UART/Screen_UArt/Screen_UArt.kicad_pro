@@ -472,7 +472,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "Screen_UArt.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

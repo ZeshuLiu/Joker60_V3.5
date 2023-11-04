@@ -4,6 +4,10 @@
             "path": "."
         }
     ],
-    "settings": {},
+    "settings": {
+        "files.associations": {
+            "usbd_cdc_acm_if.h": "c"
+        }
+    },
     "extensions": {}
 }

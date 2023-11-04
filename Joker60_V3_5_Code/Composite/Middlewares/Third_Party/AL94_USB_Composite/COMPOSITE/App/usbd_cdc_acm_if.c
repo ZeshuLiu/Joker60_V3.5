@@ -23,7 +23,7 @@
 #include "usbd_cdc_acm_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-//#include "usart.h"
+#include "usart.h"
 //#include "tim.h"
 /* USER CODE END INCLUDE */
 
@@ -374,7 +374,16 @@ static int8_t CDC_Control(uint8_t cdc_ch, uint8_t cmd, uint8_t *pbuf, uint16_t l
     Line_Coding[cdc_ch].paritytype = pbuf[5];
     Line_Coding[cdc_ch].datatype = pbuf[6];
 
-    //Change_UART_Setting(cdc_ch);
+    switch (cdc_ch)
+    {
+    case 0:
+      UpDateUart(&huart6, Line_Coding[cdc_ch].bitrate);
+      break;
+    
+    default:
+      break;
+    }
+    // Change_UART_Setting(cdc_ch);
     break;
 
   case CDC_GET_LINE_CODING:
@@ -422,7 +431,9 @@ static int8_t CDC_Receive(uint8_t cdc_ch, uint8_t *Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
   //HAL_UART_Transmit_DMA(CDC_CH_To_UART_Handle(cdc_ch), Buf, *Len);
-  CDC_Transmit(cdc_ch, Buf, *Len); // echo back on same channel
+  // CDC_Transmit(cdc_ch, Buf, *Len); // echo back on same channel
+
+  HAL_UART_Transmit_DMA(&huart6, Buf, *Len);
 
   USBD_CDC_SetRxBuffer(cdc_ch, &hUsbDevice, &Buf[0]);
   USBD_CDC_ReceivePacket(cdc_ch, &hUsbDevice);

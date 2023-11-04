@@ -30,6 +30,7 @@
 #include "Layout.h"
 #include <string.h>
 #include "main.h"
+#include "usart.h"
 
 #include "usbd_hid_custom.h"
 #include "usb_device.h"
@@ -88,6 +89,8 @@ const osThreadAttr_t defaultTask_attributes = {
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
+
+void DRAW_FRAME(uint8_t mode);
 
 void Start_KeyScan_Task(void *argument);
 void Start_LED_Task(void *argument);
@@ -192,24 +195,25 @@ void StartDefaultTask(void *argument)
 void Start_LED_Task(void *argument)
 {
   /* USER CODE BEGIN Start_LED_Task */
-  static uint8_t dat[4] = {'a', 'b', 'c', 'd'};
-  uint8_t i, j;
-  double t=0;
+  // static uint8_t dat[4] = {'a', 'b', 'c', 'd'};
+  // uint8_t i, j;
+  // double t=0;
   HAL_GPIO_WritePin(LED1_GPIO_Port,LED1_Pin, GPIO_PIN_RESET);
   /* Infinite loop */
   for(;;)
   {
     HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);
-    CDC_Transmit(0,dat,4);
+    // CDC_Transmit(0,dat,4);
     //HAL_GPIO_TogglePin(LED2_GPIO_Port,LED2_Pin);
     osDelay((uint32_t)LED2_Blink_Int);
 
     
-		t += 0.11;
+		// t += 0.11;
 
-    LCD_ShowPicture(0,31,240,91,gImage_DOG);
-
-    LCD_ShowFloatNum1(128,200,t,4,RED,WHITE,16);
+    LCD_ShowPicture(0,10,240,91,gImage_DOG);
+    DRAW_FRAME(0);
+  
+    // LCD_ShowFloatNum1(128,200,t,4,RED,WHITE,16);
 
     /*
 
@@ -269,6 +273,45 @@ void Start_KeyScan_Task(void *argument)
   /* USER CODE END Start_KeyScan_Task */
 }
 
+#define MODE_0_START_X 255
+#define DOG_END 101
+#define FRAME_COLOR_0 GRAYBLUE
+void DRAW_FRAME(uint8_t mode)
+{
+  switch (mode)
+  {
+    case 0:
+      // LCD_DrawLine(0,MODE_0_START_X - 1, 240,MODE_0_START_X - 1, BLACK);
+      LCD_DrawLine(0,MODE_0_START_X, 240,MODE_0_START_X, FRAME_COLOR_0);
+      LCD_DrawLine(0,DOG_END+2, 240,DOG_END+2, FRAME_COLOR_0);
+      
+      LCD_ShowString(20,MODE_0_START_X+3,"BaudRate:",WHITE,BLACK,24,0);// 字高24 
+      // // LCD_DrawLine(120,MODE_0_START_X, 120,MODE_0_START_X+29, BLACK);
 
+     // LCD_DrawLine(0,MODE_0_START_X+29, 240,MODE_0_START_X+29, BLACK);
+      // LCD_DrawLine(0,MODE_0_START_X+30, 240,MODE_0_START_X+30, BLACK);
+
+      LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
+      LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
+
+      // LCD_DrawLine(120,MODE_0_START_X+30, 120,MODE_0_START_X+60, BLACK);
+      // // LCD_DrawLine(119,155, 119,185, BLACK);
+
+      // LCD_DrawLine(0,MODE_0_START_X+60, 240,MODE_0_START_X+60, BLACK);
+      // LCD_DrawLine(0,MODE_0_START_X+61, 240,MODE_0_START_X+61, BLACK);
+
+      LCD_DrawLine(0,DOG_END+2, 0,MODE_0_START_X - 1, FRAME_COLOR_0);   // 垂直 L
+      // LCD_DrawLine(1,MODE_0_START_X - 1, 1,MODE_0_START_X+61, BLACK);
+      LCD_DrawLine(239,DOG_END+2, 239,MODE_0_START_X - 1, FRAME_COLOR_0);// 垂直 R
+      // LCD_DrawLine(239,MODE_0_START_X - 1, 239,MODE_0_START_X+61, BLACK);
+      LCD_ShowIntNum(129, MODE_0_START_X+3, huart6.Init.BaudRate, 7, WHITE, BLACK, 24);
+
+      break;
+    
+    default:
+      break;
+  }
+  
+}
 /* USER CODE END Application */
 

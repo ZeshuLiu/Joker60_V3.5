@@ -29,19 +29,21 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "usbd_cdc_acm_if.h"
 /* USER CODE END Includes */
 
 extern UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN Private defines */
+#define UART6_MAX_RX_LEN 64
 
+extern uint8_t UART6_RX_BUFFER[UART6_MAX_RX_LEN];
 /* USER CODE END Private defines */
 
 void MX_USART6_UART_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-
+HAL_StatusTypeDef UpDateUart(UART_HandleTypeDef * uart, uint32_t baudrate);
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

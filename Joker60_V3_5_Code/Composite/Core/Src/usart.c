@@ -24,6 +24,11 @@
 
 uint8_t UART6_RX_BUFFER[UART6_MAX_RX_LEN] = {0};
 
+extern char CMD_BUFFER[MAX_DISP_ROW][MAX_DISP_LEN+1];
+extern uint8_t CMD_DIR[MAX_DISP_ROW];
+extern uint8_t CMD_POINTER;
+
+extern uint16_t RX_CNT;
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart6;
@@ -197,6 +202,11 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 	{
 		HAL_UART_DMAStop(huart);
 		CDC_Transmit(0, UART6_RX_BUFFER, Size);
+    memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);
+    memcpy(CMD_BUFFER[CMD_POINTER], UART6_RX_BUFFER, ((int)Size>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)Size);
+    CMD_DIR[CMD_POINTER] = 2;
+    RX_CNT+=Size;
+    CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
     HAL_UARTEx_ReceiveToIdle_DMA(&huart6, UART6_RX_BUFFER, UART6_MAX_RX_LEN);
 	}
 

@@ -122,7 +122,8 @@ void Error_Handler(void);
 #define COL9_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-
+#define MAX_DISP_ROW 7
+#define MAX_DISP_LEN 24
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

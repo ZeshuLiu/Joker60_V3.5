@@ -10,4 +10,5 @@
 
 void KeyReportConstructFunc(uint8_t *KeyReport, uint8_t Row, uint8_t Col, _Bool ifPressed);
 _Bool SingleScan(uint8_t *KeyReport);
+void LOCK_KEYBOARD(void);
 #endif

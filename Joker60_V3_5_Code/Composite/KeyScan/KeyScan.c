@@ -8,6 +8,7 @@
 
 
 _Bool keyChange = 0;
+static _Bool KEYBOARD_LOCK = 0;
 
 /** @author Liu Zeshu
   *  @brief Scan the keyboard matrix once; There is filter to eliminate switch bounce: #1. When keypressed[i][j] == 0 (Not Think it is Pressed), if the io think 
@@ -95,6 +96,31 @@ _Bool SingleScan(uint8_t KeyRep[]){
 void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool IfPress){
     static uint8_t keyval, temp;
     static _Bool ifFn=0, ifPn=0;
+
+
+    /* 第一次按下PN CODE START */
+    if (Row == PN_ROW && Col == PN_COL && ifPn == 0 && IfPress == 1){ 
+        ifPn = 1;
+        LED2_Blink_Int = LED2_Blink_PN;
+        for (int i = 0; i < ComposedHidReportLen - 1; i++){
+            KeyReport[i] = 0;
+        }
+        return ;
+    }
+    /* 第一次按下PN  CODE END */
+
+    /* 第一次松开PN CODE START */
+    if (Row == PN_ROW && Col == PN_COL && ifPn == 1 && IfPress == 0){ 
+        ifPn = 0;
+        if(LED2_Blink_Int != LED2_Blink_OFF) LED2_Blink_Int = LED2_Blink_Idle;
+        for (int i = 0; i < ComposedHidReportLen - 1; i++){
+            KeyReport[i] = 0;
+        }
+        return ;
+    }
+    /* 第一次松开PN CODE END */
+
+    if(KEYBOARD_LOCK && !ifPn) return;
 
     /* 第一次按下FN CODE START */
     if (Row == FN_ROW && Col == FN_COL && ifFn == 0 && IfPress == 1){ 
@@ -219,9 +245,30 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
     
     /* PN被按下情况的键值 CODE START */
     else{
-        //Todo 
+        if (PN_Press_FUNC[Row][Col] != NULL){
+            PN_Press_FUNC[Row][Col]();
+        }
     }
     /* PN被按下情况的键值 CODE END */
 	
 }
 
+void LOCK_KEYBOARD(void)
+{
+    static uint32_t L_TIME = 0;
+    if(osKernelGetTickCount() - L_TIME < 1000){
+        return;
+    }
+    L_TIME = osKernelGetTickCount();
+    KEYBOARD_LOCK = !KEYBOARD_LOCK;
+    if (KEYBOARD_LOCK)
+    {
+        LED2_Blink_Int = LED2_Blink_OFF;
+    }
+    else{
+        LED2_Blink_Int = LED2_Blink_Idle;
+    }
+    
+    
+    return;
+}

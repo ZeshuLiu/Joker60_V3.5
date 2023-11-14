@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <main.h>
 
+
 #define CHG_LCTRL_CPSLOCK
 
 #define DebonuceTime 5 //防抖使用前五次数据
@@ -36,14 +37,19 @@ extern GPIO_TypeDef *KeyboardRowListPort[KeyBoardRowCount];
 
 extern uint8_t Normal_Value[KeyBoardRowCount][KeyBoardColCount];        // Normal KeyValue 
 extern uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount];      // KeyValue When Fn_Pressed
+extern void (* PN_Press_FUNC[KeyBoardRowCount][KeyBoardColCount])(void);
 
 extern uint8_t FN_NORMAL_DIF_HID_REP_LIST[KeyHidReportLen];
 
+void test_func_pointer(void);
 
 enum {
+  LED2_Blink_OFF = 0xffff,
   LED2_Blink_Idle = 1000,
-  LED2_Blink_FN = 100
+  LED2_Blink_FN = 100,
+  LED2_Blink_PN = 10
 };
 
 extern uint16_t LED2_Blink_Int;
+
 #endif

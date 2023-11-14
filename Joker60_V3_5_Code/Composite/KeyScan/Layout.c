@@ -1,6 +1,6 @@
 #include "Layout.h"
 #include "KeyValue.h"
-
+#include "KeyScan.h"
 
 
 uint16_t LED2_Blink_Int = LED2_Blink_Idle;
@@ -47,6 +47,14 @@ uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount]={
     {KeyCAPSLOCK,KeyLGui,KeyFN,0,0,KeySPACE,0,0,0,KeyPN,KeyRAlt,0,KeyRGui,KeyRCtrl}
 };
 
+void (* PN_Press_FUNC[KeyBoardRowCount][KeyBoardColCount])(void) ={
+    {test_func_pointer, NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL},
+    {NULL, NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL},
+    {NULL, NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,LOCK_KEYBOARD,NULL,NULL,NULL,NULL},
+    {NULL, NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL},
+    {NULL, NULL, NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL}
+};
+
 uint8_t FN_NORMAL_DIF_HID_REP_LIST[KeyHidReportLen] = {
     0xF3,   // Low KeyLCtrl KeyLShift KeyLAlt KeyLGui - KeyRCtrl KeyRShift KeyRAlt KeyRGui High
     0x60,   // Low x x x x - KeyA KeyB KeyC KeyD High
@@ -68,3 +76,8 @@ uint8_t FN_NORMAL_DIF_HID_REP_LIST[KeyHidReportLen] = {
     0x00,
     0x00,
 };
+
+void test_func_pointer(void)
+{
+    return;
+}

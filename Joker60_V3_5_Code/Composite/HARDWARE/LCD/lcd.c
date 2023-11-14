@@ -450,9 +450,12 @@ void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint16_t fc,uint16_t bc,uint
 void LCD_ShowString(uint16_t x,uint16_t y,const uint8_t *p,uint16_t fc,uint16_t bc,uint8_t sizey,uint8_t mode)
 {         
 	while(*p!='\0')
-	{       
-		LCD_ShowChar(x,y,*p,fc,bc,sizey,mode);
-		x+=sizey/2;
+	{   
+		if (*p<128)
+		{
+			LCD_ShowChar(x,y,*p,fc,bc,sizey,mode);
+			x+=sizey/2;
+		}
 		p++;
 	}  
 }

@@ -19,7 +19,7 @@ SPI_HandleTypeDef LCD_SPI;
 ******************************************************************************/
 void LCD_Writ_Bus(uint8_t dat) 
 {	
-	uint8_t i;
+	// uint8_t i;
 	LCD_CS_Clr();
 	/*
 	for(i=0;i<8;i++)

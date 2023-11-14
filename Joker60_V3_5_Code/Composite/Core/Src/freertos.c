@@ -99,7 +99,10 @@ const osThreadAttr_t defaultTask_attributes = {
 /* USER CODE BEGIN FunctionPrototypes */
 
 void DRAW_FRAME(uint8_t mode);
+<<<<<<< Updated upstream
 void DRAW_DATA(uint8_t mode);
+=======
+>>>>>>> Stashed changes
 
 void Start_KeyScan_Task(void *argument);
 void Start_LED_Task(void *argument);
@@ -227,10 +230,41 @@ void Start_LED_Task(void *argument)
     
 		// t += 0.11;
 
+<<<<<<< Updated upstream
     if (if_show_pic){
         LCD_ShowPicture(0,10,240,91,gImage_DOG);
         if_show_pic = 0;
         DRAW_FRAME(0);
+=======
+    LCD_ShowPicture(0,10,240,91,gImage_DOG);
+    DRAW_FRAME(0);
+  
+    // LCD_ShowFloatNum1(128,200,t,4,RED,WHITE,16);
+
+    /*
+
+    LCD_ShowString(0,40,"LCD_W:",RED,0x8081,16,0);
+		LCD_ShowIntNum(48,40,LCD_W,3,RED,WHITE,16);
+		LCD_ShowString(80,40,"LCD_H:",RED,WHITE,16,0);
+		LCD_ShowIntNum(128,40,LCD_H,3,RED,WHITE,16);
+		LCD_ShowString(80,40,"LCD_H:",RED,WHITE,16,0);
+		LCD_ShowString(0,70,"Increaseing Nun:",RED,WHITE,16,0);
+		LCD_ShowFloatNum1(128,70,t,4,RED,WHITE,16);
+
+    LCD_DrawLine(0,20,300,20,MAGENTA);
+		LCD_DrawLine(0,20,0,299,MAGENTA);
+		LCD_DrawLine(0,299,300,299,MAGENTA);
+		LCD_DrawLine(239,20,239,299,MAGENTA);
+
+    for(int i = 0; i <20; i++){
+      LCD_ShowIntNum(48,16*i,16*i,3,BLUE,WHITE,16);
+      LCD_DrawLine(100,16*i,200,16*i,YELLOW);
+      LCD_DrawLine(100,16*i-2,200,16*i-2,BLUE);
+			LCD_DrawLine(100,16*i+2,200,16*i+2,BLUE);
+			LCD_DrawLine(100,16*i+4,200,16*i+4,RED);
+			LCD_DrawLine(100,16*i-4,200,16*i-4,RED);
+      osDelay(10);
+>>>>>>> Stashed changes
     }
     
     DRAW_DATA(0);
@@ -269,6 +303,7 @@ void Start_KeyScan_Task(void *argument)
 #define MODE_0_START_X 255
 #define DOG_END 101
 #define FRAME_COLOR_0 GRAYBLUE
+<<<<<<< Updated upstream
 #define CMD_IN_COLOR GREEN
 #define CMD_OUT_COLOR RED
 
@@ -289,6 +324,38 @@ void DRAW_FRAME(uint8_t mode)
       LCD_ShowString(20,MODE_0_START_X+3,"BaudRate:",WHITE,BLACK,24,0);// 字高24 
       LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
       LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
+=======
+void DRAW_FRAME(uint8_t mode)
+{
+  switch (mode)
+  {
+    case 0:
+      // LCD_DrawLine(0,MODE_0_START_X - 1, 240,MODE_0_START_X - 1, BLACK);
+      LCD_DrawLine(0,MODE_0_START_X, 240,MODE_0_START_X, FRAME_COLOR_0);
+      LCD_DrawLine(0,DOG_END+2, 240,DOG_END+2, FRAME_COLOR_0);
+      
+      LCD_ShowString(20,MODE_0_START_X+3,"BaudRate:",WHITE,BLACK,24,0);// 字高24 
+      // // LCD_DrawLine(120,MODE_0_START_X, 120,MODE_0_START_X+29, BLACK);
+
+     // LCD_DrawLine(0,MODE_0_START_X+29, 240,MODE_0_START_X+29, BLACK);
+      // LCD_DrawLine(0,MODE_0_START_X+30, 240,MODE_0_START_X+30, BLACK);
+
+      LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
+      LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
+
+      // LCD_DrawLine(120,MODE_0_START_X+30, 120,MODE_0_START_X+60, BLACK);
+      // // LCD_DrawLine(119,155, 119,185, BLACK);
+
+      // LCD_DrawLine(0,MODE_0_START_X+60, 240,MODE_0_START_X+60, BLACK);
+      // LCD_DrawLine(0,MODE_0_START_X+61, 240,MODE_0_START_X+61, BLACK);
+
+      LCD_DrawLine(0,DOG_END+2, 0,MODE_0_START_X - 1, FRAME_COLOR_0);   // 垂直 L
+      // LCD_DrawLine(1,MODE_0_START_X - 1, 1,MODE_0_START_X+61, BLACK);
+      LCD_DrawLine(239,DOG_END+2, 239,MODE_0_START_X - 1, FRAME_COLOR_0);// 垂直 R
+      // LCD_DrawLine(239,MODE_0_START_X - 1, 239,MODE_0_START_X+61, BLACK);
+      LCD_ShowIntNum(129, MODE_0_START_X+3, huart6.Init.BaudRate, 7, WHITE, BLACK, 24);
+
+>>>>>>> Stashed changes
       break;
     
     default:
@@ -296,6 +363,7 @@ void DRAW_FRAME(uint8_t mode)
   }
   
 }
+<<<<<<< Updated upstream
 
 void DRAW_DATA(uint8_t mode)
 {
@@ -331,5 +399,7 @@ void DRAW_DATA(uint8_t mode)
       break;
   }
 }
+=======
+>>>>>>> Stashed changes
 /* USER CODE END Application */
 

@@ -24,14 +24,11 @@
 
 uint8_t UART6_RX_BUFFER[UART6_MAX_RX_LEN] = {0};
 
-<<<<<<< Updated upstream
 extern char CMD_BUFFER[MAX_DISP_ROW][MAX_DISP_LEN+1];
 extern uint8_t CMD_DIR[MAX_DISP_ROW];
 extern uint8_t CMD_POINTER;
 
 extern uint16_t RX_CNT;
-=======
->>>>>>> Stashed changes
 /* USER CODE END 0 */
 
 UART_HandleTypeDef huart6;
@@ -191,37 +188,25 @@ HAL_StatusTypeDef UpDateUart(UART_HandleTypeDef * uart, uint32_t baudrate)
     HAL_UART_DeInit(uart);
     HAL_UART_Init(uart);
   }
-<<<<<<< Updated upstream
-  return HAL_UARTEx_ReceiveToIdle_DMA(&huart6, UART6_RX_BUFFER, UART6_MAX_RX_LEN);
-=======
   HAL_UARTEx_ReceiveToIdle_DMA(&huart6, UART6_RX_BUFFER, UART6_MAX_RX_LEN);
 
 
->>>>>>> Stashed changes
 }
 
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 {
-<<<<<<< Updated upstream
-  // uint8_t len;
-	// uint8_t data[25];
-=======
   uint8_t len;
 	uint8_t data[25];
->>>>>>> Stashed changes
 	if(huart->Instance == USART6)
 	{
 		HAL_UART_DMAStop(huart);
 		CDC_Transmit(0, UART6_RX_BUFFER, Size);
-<<<<<<< Updated upstream
     memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);
     memcpy(CMD_BUFFER[CMD_POINTER], UART6_RX_BUFFER, ((int)Size>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)Size);
     CMD_DIR[CMD_POINTER] = 2;
     RX_CNT+=Size;
     CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
-=======
->>>>>>> Stashed changes
     HAL_UARTEx_ReceiveToIdle_DMA(&huart6, UART6_RX_BUFFER, UART6_MAX_RX_LEN);
 	}
 

@@ -5,7 +5,6 @@
         }
     ],
     "settings": {
-<<<<<<< Updated upstream
         "files.autoGuessEncoding": true,
         "C_Cpp.default.configurationProvider": "cl.eide",
         "C_Cpp.errorSquiggles": "disabled",
@@ -42,12 +41,4 @@
             "marus25.cortex-debug"
         ]
     }
-=======
-        "files.associations": {
-            "usbd_cdc_acm_if.h": "c",
-            "usart.h": "c"
-        }
-    },
-    "extensions": {}
->>>>>>> Stashed changes
 }

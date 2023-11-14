@@ -437,12 +437,16 @@ static int8_t CDC_Receive(uint8_t cdc_ch, uint8_t *Buf, uint32_t *Len)
   //HAL_UART_Transmit_DMA(CDC_CH_To_UART_Handle(cdc_ch), Buf, *Len);
   // CDC_Transmit(cdc_ch, Buf, *Len); // echo back on same channel
 
+<<<<<<< Updated upstream
   HAL_UART_Transmit_DMA(&huart6, Buf, *Len); 
   memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);
   memcpy(CMD_BUFFER[CMD_POINTER], Buf, ((int)*Len>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)*Len);
   CMD_DIR[CMD_POINTER] = 1;
   TX_CNT+=*Len;
   CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
+=======
+  HAL_UART_Transmit_DMA(&huart6, Buf, *Len);
+>>>>>>> Stashed changes
 
   USBD_CDC_SetRxBuffer(cdc_ch, &hUsbDevice, &Buf[0]);
   USBD_CDC_ReceivePacket(cdc_ch, &hUsbDevice);

@@ -460,6 +460,32 @@ void LCD_ShowString(uint16_t x,uint16_t y,const uint8_t *p,uint16_t fc,uint16_t 
 	}  
 }
 
+/*
+* @brief 显示字符串，满行
+* @param x,y 显示坐标
+* @param p 字符串
+* @param fc 字颜色
+* @param bc 背景颜色
+* @param sizey 字的大小 
+* @param Mode 1-叠加 0-非叠加
+* @return None
+*/
+void LCD_ShowString_CL(uint16_t x,uint16_t y,const uint8_t *p,uint16_t fc,uint16_t bc,uint8_t sizey,uint8_t mode)
+{         
+	while(*p!='\0')
+	{   
+		if (*p<128)
+		{
+			LCD_ShowChar(x,y,*p,fc,bc,sizey,mode);
+			x+=sizey/2;
+		}
+		p++;
+	}  
+	while(x<240-sizey){
+		LCD_ShowChar(x,y, 0x20,fc,bc,sizey,mode);
+		x += sizey/2;
+	}
+}
 
 /*
 * @brief 显示数字

@@ -124,6 +124,7 @@ void Error_Handler(void);
 /* USER CODE BEGIN Private defines */
 #define MAX_DISP_ROW 7
 #define MAX_DISP_LEN 24
+#define MAX_DISP_HEX 8    
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

@@ -9,6 +9,7 @@
 
 _Bool keyChange = 0;
 static _Bool KEYBOARD_LOCK = 0;
+_Bool HEX_DISP = 0;
 
 /** @author Liu Zeshu
   *  @brief Scan the keyboard matrix once; There is filter to eliminate switch bounce: #1. When keypressed[i][j] == 0 (Not Think it is Pressed), if the io think 
@@ -253,6 +254,10 @@ void KeyReportConstructFunc(uint8_t KeyReport[], uint8_t Row, uint8_t Col, _Bool
 	
 }
 
+/**
+ * @brief 切换键盘锁定状态
+ * 
+ */
 void LOCK_KEYBOARD(void)
 {
     static uint32_t L_TIME = 0;
@@ -270,5 +275,21 @@ void LOCK_KEYBOARD(void)
     }
     
     
+    return;
+}
+
+/**
+ * @brief 切换HEX或ASCII显示
+ * 
+ */
+void HexDispSwitch(void)
+{
+    extern _Bool HEX_DISP;
+    static uint32_t L_TIME = 0;
+    if(osKernelGetTickCount() - L_TIME < 1000){
+        return;
+    }
+    L_TIME = osKernelGetTickCount();
+    HEX_DISP = !HEX_DISP;
     return;
 }

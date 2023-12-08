@@ -35,6 +35,7 @@
 /* Private variables ---------------------------------------------------------*/
 extern char CMD_BUFFER[MAX_DISP_ROW][MAX_DISP_LEN+1];
 extern uint8_t CMD_DIR[MAX_DISP_ROW];
+extern uint8_t CMD_LEN[MAX_DISP_ROW];
 extern uint8_t CMD_POINTER;
 
 extern uint16_t TX_CNT;
@@ -434,19 +435,13 @@ static int8_t CDC_Control(uint8_t cdc_ch, uint8_t cmd, uint8_t *pbuf, uint16_t l
 static int8_t CDC_Receive(uint8_t cdc_ch, uint8_t *Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  //HAL_UART_Transmit_DMA(CDC_CH_To_UART_Handle(cdc_ch), Buf, *Len);
-  // CDC_Transmit(cdc_ch, Buf, *Len); // echo back on same channel
-
-<<<<<<< Updated upstream
   HAL_UART_Transmit_DMA(&huart6, Buf, *Len); 
-  memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);
+  memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);    // 清屏，所以需要用空格填充
   memcpy(CMD_BUFFER[CMD_POINTER], Buf, ((int)*Len>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)*Len);
   CMD_DIR[CMD_POINTER] = 1;
+  CMD_LEN[CMD_POINTER] = *Len;
   TX_CNT+=*Len;
   CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
-=======
-  HAL_UART_Transmit_DMA(&huart6, Buf, *Len);
->>>>>>> Stashed changes
 
   USBD_CDC_SetRxBuffer(cdc_ch, &hUsbDevice, &Buf[0]);
   USBD_CDC_ReceivePacket(cdc_ch, &hUsbDevice);

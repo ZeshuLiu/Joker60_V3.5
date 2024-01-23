@@ -7,7 +7,7 @@
 
 #define CHG_LCTRL_CPSLOCK
 
-#define DebonuceTime 5 //防抖使用前五次数据
+#define DebonuceTime 10 //防抖使用前五次数据
 #define ScanCountPerms 3 //每一ms内扫描3次
 
 #define KeyBoardColCount 14
@@ -35,7 +35,7 @@ extern uint16_t  KeyboardRowListPin[KeyBoardRowCount];
 extern GPIO_TypeDef *KeyboardRowListPort[KeyBoardRowCount];
 
 
-extern uint8_t Normal_Value[KeyBoardRowCount][KeyBoardColCount];        // Normal KeyValue 
+extern uint8_t Normal_Value[KeyBoardRowCount][KeyBoardColCount];        // Normal KeyValue
 extern uint8_t FN_Press_Value[KeyBoardRowCount][KeyBoardColCount];      // KeyValue When Fn_Pressed
 extern void (* PN_Press_FUNC[KeyBoardRowCount][KeyBoardColCount])(void);
 

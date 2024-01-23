@@ -105,12 +105,9 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // 屏幕显示初始化
-  LCD_Init(hspi2);//LCD初始�??
+  LCD_Init(hspi2);//LCD初始化
   LCD_Fill(0,0,LCD_W,LCD_H,BLACK);
-  
-  // 开启UART接收到空闲
-  //HAL_UARTEx_ReceiveToIdle_DMA(&huart6, UART6_RX_BUFFER, UART6_MAX_RX_LEN);
-  
+
   /* USER CODE END 2 */
 
   /* Init scheduler */

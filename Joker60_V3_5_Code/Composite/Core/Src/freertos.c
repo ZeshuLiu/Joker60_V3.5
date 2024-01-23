@@ -169,17 +169,17 @@ void StartDefaultTask(void *argument)
   static uint8_t ConHidReportFull[ConHidReportLen+1] = {0};
   static uint8_t LastReport = 0;
   volatile uint8_t i = 0;
-  
+
 	MX_USB_DEVICE_Init();
   ComposedHidReport[0] = KeyHidReportID;
   ConHidReportFull[0] = ConHidReportID;
-  
+
   lasttick = xTaskGetTickCount();
   /* Infinite loop */
   for(;;)
-  { 
+  {
     vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一次
-    
+
     // 发送媒体键
     if (ComposedHidReport[ConHidReportOffset+1] != LastReport)
     {
@@ -220,7 +220,7 @@ void Start_LED_Task(void *argument)
       osDelay(1000);
       continue;
     }
-      
+
     osDelay((uint32_t)LED2_Blink_Int);
 
 
@@ -229,7 +229,7 @@ void Start_LED_Task(void *argument)
         if_show_pic = 0;
         DRAW_FRAME(0);
     }
-    
+
     DRAW_DATA(0);
   }
   /* USER CODE END Start_LED_Task */
@@ -242,7 +242,7 @@ void Start_LED_Task(void *argument)
   */
 /* USER CODE END Header_StartDefaultTask */
 void Start_KeyScan_Task(void *argument)
-{ 
+{
   /* USER CODE BEGIN Start_KeyScan_Task */
   static TickType_t lasttick;
   static uint8_t ScanCount = 0;
@@ -252,13 +252,13 @@ void Start_KeyScan_Task(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描�???�???
+    vTaskDelayUntil(&lasttick, 0x01U); // 每隔 1ms 扫描一次
 
-    /* 每轮扫描扫描 ScanCountPerms �??? */
+    /* 每轮扫描扫描 ScanCountPerms 次 */
     for ( ScanCount = 0; ScanCount < ScanCountPerms; ScanCount++)
     {
       SingleScan(&ComposedHidReport[1]);// 每轮扫描大概需要 1/10 ms
-    } 
+    }
   }
   /* USER CODE END Start_KeyScan_Task */
 }
@@ -287,11 +287,11 @@ void DRAW_FRAME(uint8_t mode)
       LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
       LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
       break;
-    
+
     default:
       break;
   }
-  
+
 }
 
 void DRAW_DATA(uint8_t mode)
@@ -330,19 +330,19 @@ void DRAW_DATA(uint8_t mode)
               if(j+1 > CMD_LEN[pos] ) break;
               sprintf((char *) temp_word, "%s %02X",(char *) temp_word, CMD_BUFFER[pos][j]);
             }
-            temp_word[strlen((char *) temp_word)] = ' '; 
+            temp_word[strlen((char *) temp_word)] = ' ';
           }
-          
+
           LCD_ShowString_CL(2,                                             // x
-              DOG_END + 4 + 20*i,                                       // y          
-              (HEX_DISP) ? (const uint8_t *) &temp_word[1]:(const uint8_t *) CMD_BUFFER[pos], 
+              DOG_END + 4 + 20*i,                                       // y
+              (HEX_DISP) ? (const uint8_t *) &temp_word[1]:(const uint8_t *) CMD_BUFFER[pos],
               (CMD_DIR[pos] == 1) ? CMD_IN_COLOR : CMD_OUT_COLOR ,      // 字符颜色
               BLACK,16,0);
         }
-        
+
       }
       break;
-    
+
     default:
       break;
   }

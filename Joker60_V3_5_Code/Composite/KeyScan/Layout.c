@@ -11,14 +11,14 @@ GPIO_TypeDef *KeyboardColListPort[KeyBoardColCount] = {
     GPIOA,      GPIOB,      GPIOB,      GPIOB,      //8
     GPIOB,      GPIOC,      GPIOC,      GPIOD,      //12
     GPIOB,      GPIOB                               //14
-    };                             
+    };
 uint16_t  KeyboardColListPin[KeyBoardColCount] = {
     GPIO_PIN_3, GPIO_PIN_4, GPIO_PIN_5, GPIO_PIN_2,
     GPIO_PIN_1, GPIO_PIN_6, GPIO_PIN_7, GPIO_PIN_8,
     GPIO_PIN_9, GPIO_PIN_11,GPIO_PIN_12,GPIO_PIN_2,
     GPIO_PIN_3, GPIO_PIN_4
     };
-GPIO_TypeDef *KeyboardRowListPort[KeyBoardRowCount] = { 
+GPIO_TypeDef *KeyboardRowListPort[KeyBoardRowCount] = {
     GPIOA,       GPIOC,       GPIOB,      GPIOC,       GPIOA
     };
 

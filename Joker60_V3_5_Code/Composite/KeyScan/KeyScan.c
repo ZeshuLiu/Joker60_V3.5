@@ -15,7 +15,7 @@ _Bool HEX_DISP = 0;
   *  @brief Scan the keyboard matrix once; There is filter to eliminate switch bounce: #1. When keypressed[i][j] == 0 (Not Think it is Pressed), if the io think 
 key is pressed (may be a bounce), KeyScan[i][j] += 1. #2 When (KeyScan[i][j]/DebonuceTime > 0) is true, set keypressed[i][j] = 1(Pressed). #3 If keypressed[i][j] == 1
 and the io think the key is released, directly set keypressed[i][j] = 0 (Released). ## DebounceTime is defined in Layout.h
-  *  @param KeyRep[] List contains Hid Report Data. 
+  *  @param KeyRep[] List contains Hid Report Data.
   *  @return If any key has changed
 */
 _Bool SingleScan(uint8_t KeyRep[]){

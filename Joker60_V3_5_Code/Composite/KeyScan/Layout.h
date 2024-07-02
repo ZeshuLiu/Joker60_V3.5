@@ -7,8 +7,9 @@
 
 #define CHG_LCTRL_CPSLOCK
 
-#define DebonuceTime 10 //防抖使用前五次数据
-#define ScanCountPerms 3 //每一ms内扫描3次
+#define DebonuceTime 15 //防抖使用前20次数据
+#define DebonuceRelaseTime 7 // 低于此值认为被松开
+#define ScanCountPerms 3 //每一ms内扫描2次
 
 #define KeyBoardColCount 14
 #define KeyBoardRowCount 5

@@ -50,12 +50,12 @@ _Bool SingleScan(uint8_t KeyRep[]){
             /* 并且需要保证其值不会太大（<= DebonuceTime) 防止其溢出 */
             if(gpio_value == 0 && keypressed[i][j] == 0)
             {
-                // KeyScan[i][j] = (KeyScan[i][j] + 1)%(DebonuceTime+1);
-                KeyScan[i][j] = ( (KeyScan[i][j] + 1) > (DebonuceTime+1) ) ? DebonuceTime :  (KeyScan[i][j] + 1) ;
+                KeyScan[i][j] = ( (KeyScan[i][j] + 1) > (DebonuceTime+1) ) ? DebonuceTime :  (KeyScan[i][j] + 1) ;      // 要认为按下需要滤波
             }
             /* 如果当前认为该键按下，但是引脚电平为高（被释放），则keyScan[i][j] = 0 */
             else if (gpio_value == 1 && keypressed[i][j] == 1){
-                KeyScan[i][j] = 0;
+                // KeyScan[i][j] = 0;
+                KeyScan[i][j] = ( (KeyScan[i][j] == 0) ) ? 0 :  (KeyScan[i][j] - 1) ;
             }
 
             /* 获取防抖后的值 CODE START*/
@@ -69,9 +69,9 @@ _Bool SingleScan(uint8_t KeyRep[]){
                 keyChange = 1;
             }
 
-            /* 如果KeyScan[i][j] < DebonuceTime 并且原先认为其按下 */
+            /*  KeyScan[i][j] < DebonuceRelaseTime 并且原先认为其按下 */
             /* 认为其没有按下，并且生成新的HidReport */
-            else if (KeyScan[i][j]/DebonuceTime == 0 && keypressed[i][j] == 1)
+            else if (KeyScan[i][j] < DebonuceRelaseTime && keypressed[i][j] == 1)
             {
                 keypressed[i][j] = 0;
                 KeyReportConstructFunc(KeyRep,i,j,0);

@@ -340,6 +340,7 @@ void DRAW_DATA(uint8_t mode)
               BLACK,16,0);
         }
 
+        osDelay(1); // 每行刷新延迟一些来为按键服务
       }
       break;
 

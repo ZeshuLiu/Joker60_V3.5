@@ -35,7 +35,7 @@ extern "C" {
 extern UART_HandleTypeDef huart6;
 
 /* USER CODE BEGIN Private defines */
-#define UART6_MAX_RX_LEN 64
+#define UART6_MAX_RX_LEN 16384
 
 extern uint8_t UART6_RX_BUFFER[UART6_MAX_RX_LEN];
 /* USER CODE END Private defines */

@@ -39,6 +39,15 @@ extern uint8_t CMD_LEN[MAX_DISP_ROW];
 extern uint8_t CMD_POINTER;
 
 extern uint16_t TX_CNT;
+
+/* ================= 全局变量 ================= */
+uint8_t  cdc_fifo[MAX_CDC_DEPTH][MAX_CDC_PKT_SIZE];
+uint16_t cdc_len [MAX_CDC_DEPTH];
+volatile uint8_t fifo_w = 0;
+volatile uint8_t fifo_r = 0;
+volatile uint8_t fifo_cnt = 0;
+
+volatile uint8_t uart_busy = 0;
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -435,7 +444,16 @@ static int8_t CDC_Control(uint8_t cdc_ch, uint8_t cmd, uint8_t *pbuf, uint16_t l
 static int8_t CDC_Receive(uint8_t cdc_ch, uint8_t *Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  HAL_UART_Transmit_DMA(&huart6, Buf, *Len); 
+  uint32_t l = (*Len > MAX_CDC_PKT_SIZE) ? MAX_CDC_PKT_SIZE : *Len;
+
+  if (fifo_cnt < MAX_CDC_DEPTH)
+  {
+      memcpy(cdc_fifo[fifo_w], Buf, l);
+      cdc_len[fifo_w] = l;
+      fifo_w = (fifo_w + 1) % MAX_CDC_DEPTH;
+      fifo_cnt++;
+  }
+
   memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);    // 清屏，所以需要用空格填充
   memcpy(CMD_BUFFER[CMD_POINTER], Buf, ((int)*Len>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)*Len);
   CMD_DIR[CMD_POINTER] = 1;

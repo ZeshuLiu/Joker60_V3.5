@@ -49,7 +49,9 @@
   * @{
   */
 /* USER CODE BEGIN EXPORTED_DEFINES */
-
+ /* ================= 配置参数 ================= */
+ #define MAX_CDC_DEPTH     256
+ #define MAX_CDC_PKT_SIZE  64
 /* USER CODE END EXPORTED_DEFINES */
 
 /**

@@ -211,4 +211,15 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 	}
 
 }
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	extern uint8_t uart_busy;
+
+	if (huart == &huart6)
+	{
+		uart_busy = 0;
+	}
+}
+
 /* USER CODE END 1 */

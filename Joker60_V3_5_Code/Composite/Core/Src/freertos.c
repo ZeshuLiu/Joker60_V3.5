@@ -105,6 +105,7 @@ void DRAW_DATA(uint8_t mode);
 void Start_KeyScan_Task(void *argument);
 void Start_LED_Task(void *argument);
 void Start_MediaControl_Task(void *argument);
+void zuart_tx_process(void);
 
 /* USER CODE END FunctionPrototypes */
 
@@ -191,6 +192,9 @@ void StartDefaultTask(void *argument)
 
     // 发送键盘按键
     USBD_CUSTOM_HID_SendReport(&hUsbDevice, ComposedHidReport, KeyHidReportLen+1);
+
+    // 如果usart缓冲区不空则发送；
+    zuart_tx_process();
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -283,7 +287,7 @@ void DRAW_FRAME(uint8_t mode)
       LCD_DrawLine(239,DOG_END+2, 239,MODE_0_START_X - 1, FRAME_COLOR_0);     // 命令行右侧横线
 
       /* 串口参数显示 */
-      LCD_ShowString(20,MODE_0_START_X+3,"BaadRate:",WHITE,BLACK,24,0);// 字高24
+      LCD_ShowString(20,MODE_0_START_X+3,"BaudRate:",WHITE,BLACK,24,0);// 字高24
       LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
       LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
       break;
@@ -347,6 +351,39 @@ void DRAW_DATA(uint8_t mode)
     default:
       break;
   }
+}
+
+void zuart_tx_process(void)
+{
+	extern uint8_t fifo_cnt, uart_busy, fifo_r;
+	extern uint8_t  cdc_fifo[MAX_CDC_DEPTH][MAX_CDC_PKT_SIZE];
+	extern uint16_t cdc_len [MAX_CDC_DEPTH];
+	HAL_StatusTypeDef ret, rett;
+    if (!uart_busy && fifo_cnt > 0)
+    {
+        uint8_t idx = fifo_r;
+
+        fifo_r = (fifo_r + 1) % MAX_CDC_DEPTH;
+        fifo_cnt--;
+
+        uart_busy = 1;
+        if (cdc_len[idx] == 0){
+        	return;
+        }
+        ret = HAL_UART_Transmit_DMA(&huart6,
+                              cdc_fifo[idx],
+                              cdc_len[idx]);
+        if (ret != HAL_OK)
+        {
+        	rett = ret;
+        	return;
+        }
+    }
+
+    if (uart_busy && huart6.gState != HAL_UART_STATE_BUSY_TX)
+    {
+        uart_busy = 0;
+    }
 }
 /* USER CODE END Application */
 

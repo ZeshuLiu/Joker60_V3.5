@@ -14,3 +14,4 @@ Joker60_V3_5_Code/Composite/MDK-ARM/Composite/*.crf
 *.o
 *.cyclo
 *.su
+*.mk

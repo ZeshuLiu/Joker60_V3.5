@@ -283,7 +283,7 @@ void DRAW_FRAME(uint8_t mode)
       LCD_DrawLine(239,DOG_END+2, 239,MODE_0_START_X - 1, FRAME_COLOR_0);     // 命令行右侧横线
 
       /* 串口参数显示 */
-      LCD_ShowString(20,MODE_0_START_X+3,"BaudRate:",WHITE,BLACK,24,0);// 字高24 
+      LCD_ShowString(20,MODE_0_START_X+3,"BaadRate:",WHITE,BLACK,24,0);// 字高24
       LCD_ShowString(30,MODE_0_START_X+27,"TX:",WHITE,BLACK,16,0);// 字高16
       LCD_ShowString(133,MODE_0_START_X+27,"RX:",WHITE,BLACK,16,0);// 字高16
       break;

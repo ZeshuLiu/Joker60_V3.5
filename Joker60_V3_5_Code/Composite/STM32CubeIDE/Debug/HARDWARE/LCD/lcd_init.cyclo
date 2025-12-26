@@ -1,0 +1,7 @@
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:6:6:delay	2
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:20:6:LCD_Writ_Bus	2
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:52:6:LCD_WR_DATA8	1
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:64:6:LCD_WR_DATA	1
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:77:6:LCD_WR_REG	1
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:91:6:LCD_Address_Set	1
+E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE/LCD/lcd_init.c:140:6:LCD_Init	1

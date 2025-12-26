@@ -1,0 +1,17 @@
+../HARDWARE--/LCD/lcd.c:15:6:LCD_Fill	32	static
+../HARDWARE--/LCD/lcd.c:35:6:LCD_DrawPoint	16	static
+../HARDWARE--/LCD/lcd.c:49:6:LCD_DrawLine	64	static
+../HARDWARE--/LCD/lcd.c:92:6:LCD_DrawRectangle	32	static
+../HARDWARE--/LCD/lcd.c:108:6:Draw_Circle	32	static
+../HARDWARE--/LCD/lcd.c:140:6:LCD_ShowChinese	40	static
+../HARDWARE--/LCD/lcd.c:164:6:LCD_ShowChinese12x12	48	static
+../HARDWARE--/LCD/lcd.c:222:6:LCD_ShowChinese16x16	48	static
+../HARDWARE--/LCD/lcd.c:280:6:LCD_ShowChinese24x24	48	static
+../HARDWARE--/LCD/lcd.c:337:6:LCD_ShowChinese32x32	48	static
+../HARDWARE--/LCD/lcd.c:395:6:LCD_ShowChar	40	static
+../HARDWARE--/LCD/lcd.c:450:6:LCD_ShowString	48	static
+../HARDWARE--/LCD/lcd.c:473:6:LCD_ShowString_CL	48	static
+../HARDWARE--/LCD/lcd.c:498:10:mypow	24	static
+../HARDWARE--/LCD/lcd.c:516:6:LCD_ShowIntNum	56	static
+../HARDWARE--/LCD/lcd.c:548:6:LCD_ShowFloatNum1	56	static
+../HARDWARE--/LCD/lcd.c:576:6:LCD_ShowPicture	32	static

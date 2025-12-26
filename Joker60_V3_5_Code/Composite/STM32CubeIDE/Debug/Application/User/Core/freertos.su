@@ -1,6 +1,0 @@
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:120:6:MX_FREERTOS_Init	8	static
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:164:6:StartDefaultTask	24	static
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:207:6:Start_LED_Task	24	static
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:244:6:Start_KeyScan_Task	16	static
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:272:6:DRAW_FRAME	32	static
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/freertos.c:297:6:DRAW_DATA	64	static

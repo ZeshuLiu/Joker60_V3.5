@@ -1,5 +1,0 @@
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/usart.c:41:6:MX_USART6_UART_Init	2
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/usart.c:69:6:HAL_UART_MspInit	4
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/usart.c:139:6:HAL_UART_MspDeInit	2
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/usart.c:176:19:UpDateUart	3
-E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/Core/Src/usart.c:196:6:HAL_UARTEx_RxEventCallback	2

@@ -1,0 +1,7 @@
+../HARDWARE--/LCD/lcd_init.c:6:6:delay	16	static
+../HARDWARE--/LCD/lcd_init.c:20:6:LCD_Writ_Bus	16	static
+../HARDWARE--/LCD/lcd_init.c:52:6:LCD_WR_DATA8	16	static
+../HARDWARE--/LCD/lcd_init.c:64:6:LCD_WR_DATA	16	static
+../HARDWARE--/LCD/lcd_init.c:77:6:LCD_WR_REG	16	static
+../HARDWARE--/LCD/lcd_init.c:91:6:LCD_Address_Set	24	static
+../HARDWARE--/LCD/lcd_init.c:140:6:LCD_Init	8	static

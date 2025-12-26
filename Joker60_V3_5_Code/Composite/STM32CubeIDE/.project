@@ -39,12 +39,12 @@
 		<link>
 			<name>HARDWARE</name>
 			<type>2</type>
-			<location>E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/HARDWARE</location>
+			<location>E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/HARDWARE</location>
 		</link>
 		<link>
 			<name>KeyScan</name>
 			<type>2</type>
-			<location>E:/Develop/Joker60_V3.5--/Joker60_V3_5_Code/Composite/STM32CubeIDE/KeyScan</location>
+			<location>E:/Develop/Joker60_V3.5/Joker60_V3_5_Code/Composite/KeyScan</location>
 		</link>
 		<link>
 			<name>Drivers/CMSIS/system_stm32f4xx.c</name>

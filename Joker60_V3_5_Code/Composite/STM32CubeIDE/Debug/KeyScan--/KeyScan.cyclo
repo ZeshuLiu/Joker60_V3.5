@@ -1,0 +1,4 @@
+../KeyScan--/KeyScan.c:21:7:SingleScan	14
+../KeyScan--/KeyScan.c:97:6:KeyReportConstructFunc	40
+../KeyScan--/KeyScan.c:261:6:LOCK_KEYBOARD	3
+../KeyScan--/KeyScan.c:285:6:HexDispSwitch	2

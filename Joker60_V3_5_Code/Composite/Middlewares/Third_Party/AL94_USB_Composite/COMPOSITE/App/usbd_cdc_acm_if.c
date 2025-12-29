@@ -33,13 +33,6 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-extern char CMD_BUFFER[MAX_DISP_ROW][MAX_DISP_LEN+1];
-extern uint8_t CMD_DIR[MAX_DISP_ROW];
-extern uint8_t CMD_LEN[MAX_DISP_ROW];
-extern uint8_t CMD_POINTER;
-
-extern uint16_t TX_CNT;
-
 /* ================= 全局变量 ================= */
 uint8_t  cdc_fifo[MAX_CDC_DEPTH][MAX_CDC_PKT_SIZE];
 uint16_t cdc_len [MAX_CDC_DEPTH];
@@ -453,13 +446,6 @@ static int8_t CDC_Receive(uint8_t cdc_ch, uint8_t *Buf, uint32_t *Len)
       fifo_w = (fifo_w + 1) % MAX_CDC_DEPTH;
       fifo_cnt++;
   }
-
-  memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);    // 清屏，所以需要用空格填充
-  memcpy(CMD_BUFFER[CMD_POINTER], Buf, ((int)*Len>MAX_DISP_LEN) ? MAX_DISP_LEN:(int)*Len);
-  CMD_DIR[CMD_POINTER] = 1;
-  CMD_LEN[CMD_POINTER] = *Len;
-  TX_CNT+=*Len;
-  CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
 
   USBD_CDC_SetRxBuffer(cdc_ch, &hUsbDevice, &Buf[0]);
   USBD_CDC_ReceivePacket(cdc_ch, &hUsbDevice);

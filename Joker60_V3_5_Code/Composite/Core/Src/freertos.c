@@ -171,7 +171,7 @@ void StartDefaultTask(void *argument)
   static uint8_t LastReport = 0;
   volatile uint8_t i = 0;
 
-	MX_USB_DEVICE_Init();
+  MX_USB_DEVICE_Init();
   ComposedHidReport[0] = KeyHidReportID;
   ConHidReportFull[0] = ConHidReportID;
 
@@ -358,6 +358,14 @@ void zuart_tx_process(void)
 	extern uint8_t fifo_cnt, uart_busy, fifo_r;
 	extern uint8_t  cdc_fifo[MAX_CDC_DEPTH][MAX_CDC_PKT_SIZE];
 	extern uint16_t cdc_len [MAX_CDC_DEPTH];
+
+	extern char CMD_BUFFER[MAX_DISP_ROW][MAX_DISP_LEN+1];
+	extern uint8_t CMD_DIR[MAX_DISP_ROW];
+	extern uint8_t CMD_LEN[MAX_DISP_ROW];
+	extern uint8_t CMD_POINTER;
+
+	extern uint16_t TX_CNT;
+
 	HAL_StatusTypeDef ret, rett;
     if (!uart_busy && fifo_cnt > 0)
     {
@@ -373,6 +381,14 @@ void zuart_tx_process(void)
         ret = HAL_UART_Transmit_DMA(&huart6,
                               cdc_fifo[idx],
                               cdc_len[idx]);
+
+        memset(CMD_BUFFER[CMD_POINTER], ' ' , MAX_DISP_LEN);    // 清屏，所以需要用空格填充
+	    memcpy(CMD_BUFFER[CMD_POINTER],  cdc_fifo[idx], ((int) cdc_len[idx]>MAX_DISP_LEN) ? MAX_DISP_LEN:cdc_len[idx]);
+	    CMD_DIR[CMD_POINTER] = 1;
+	    CMD_LEN[CMD_POINTER] = cdc_len[idx];
+	    TX_CNT+=cdc_len[idx];
+	    CMD_POINTER = (CMD_POINTER + 1) % MAX_DISP_ROW;
+
         if (ret != HAL_OK)
         {
         	rett = ret;
